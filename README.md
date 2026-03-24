@@ -1,8 +1,8 @@
 # TopoMedic AI: Mitigating Shortcut Learning in Glaucoma Detection (IDSC 2026 Submission)
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-FF4B4B)
-![License](https://img.shields.io/badge/License-MIT-green)
+![License](https://img.shields.io/badge/License-AGPL3.0-green)
 
 **TopoMedic AI** is an interpretable diagnostic framework for Glaucomatous Optic Neuropathy (GON). It abandons the architectural bloat and "black-box" opacity of standard Deep Learning by pairing **Topological Data Analysis (TDA)** with an interpretable shallow classifier.
 
