@@ -11,6 +11,9 @@ In our adversarial audits, a transfer-learned ResNet-18 achieved a **0.99 AUROC*
 
 TopoMedic AI solves this. By anchoring predictions strictly to the mathematical invariants of retinal geometry, we built a model that is clinically safe, mathematically rigorous, and deployable on low-power edge hardware.
 
+<div align="center">
+  <img src="./graphics/shortcut learning.PNG" alt="Alt text" width="600" />
+</div>
 ---
 
 ## ⚙️ Topological Architecture
@@ -42,6 +45,10 @@ Rather than guessing which pixels matter, TopoMedic AI uses the physics of light
 ## 🖥️ Streamlit Deployment (app.py)
 
 TopoMedic AI is more than a script, it is a clinical tool. We built a Streamlit interface that provides **Itemised Transparency**. It outputs not just a probability score, but a game-theoretic **SHAP Waterfall Plot** binned by biological landscape (Vascular, Disc, Texture). This gives the clinician the exact biological rationale they need to authorize treatment.
+
+<div align="center">
+  <img src="./graphics/streamlit.PNG" alt="Alt text" width="600" />
+</div>
 
 ### To Run App
 
