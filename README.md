@@ -13,7 +13,7 @@ TopoMedic AI solves this. By anchoring predictions strictly to the mathematical 
 
 ---
 
-## ⚙️ The "Giant-Killer" Architecture
+## ⚙️ Topological Architecture
 
 Rather than guessing which pixels matter, TopoMedic AI uses the physics of light and topology to force deterministic biomarker extraction.
 
@@ -27,7 +27,7 @@ Rather than guessing which pixels matter, TopoMedic AI uses the physics of light
 
 ---
 
-## 📊 Technical & Clinical Benchmarks
+## 📊 Performance Metrics
 
 | Metric / Benchmark | CNN Baseline (ResNet-18) | **TopoMedic AI (TDA+RF)** | Clinical Significance |
 | :--- | :--- | :--- | :--- |
@@ -39,7 +39,7 @@ Rather than guessing which pixels matter, TopoMedic AI uses the physics of light
 
 ---
 
-## 🖥️ Streamlit Deployment (Human-in-the-Loop)
+## 🖥️ Streamlit Deployment (app.py)
 
 TopoMedic AI is more than a script, it is a clinical tool. We built a Streamlit interface that provides **Itemised Transparency**. It outputs not just a probability score, but a game-theoretic **SHAP Waterfall Plot** binned by biological landscape (Vascular, Disc, Texture). This gives the clinician the exact biological rationale they need to authorize treatment.
 
