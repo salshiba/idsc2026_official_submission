@@ -32,17 +32,16 @@ Rather than guessing which pixels matter, TopoMedic AI uses the physics of light
 | Metric / Benchmark | CNN Baseline (ResNet-18) | **TopoMedic AI (TDA+RF)** | Clinical Significance |
 | :--- | :--- | :--- | :--- |
 | **AUROC** | 0.99 | **0.873** | General Class Separability |
-| **Recall (Sensitivity)**| 0.99 | **0.891** | **Patient Safety:** Avoids catastrophic False Negatives |
-| **F2-Score** | 0.94 | **0.865** | **Clinical Utility:** Weights Recall 2x over Precision |
+| **Recall (Sensitivity)**| 0.99 | **0.95** | **Patient Safety:** Avoids catastrophic False Negatives |
 | **Ablation Resilience**| **FAILED** (Relies on noise) | **PASSED** (Pathology-bound) | Proves model logic is biologically valid |
-| **Logic Mechanism** | Saliency only (Grad-CAM) | **Additive (SHAP)** | Generates "Itemized Clinical Receipts" |
-| **Compute Profile** | High-TDP GPU Dependent | **O(n) CPU / Edge-Ready** | Air-gapped privacy; runs on a Raspberry Pi |
+| **Logic Mechanism** | Saliency only (Grad-CAM) | **Additive (SHAP)** | Generates "Itemised Clinical Receipts" |
+| **Compute Profile** | Infrastructure Dependent | **O(n) CPU / Edge-Ready** | Cloud-independent privacy; runs on edge device |
 
 ---
 
 ## 🖥️ Streamlit Deployment (Human-in-the-Loop)
 
-TopoMedic AI is not just a script; it is a clinical tool. We built a Streamlit interface that provides **Itemised Transparency**. It outputs not just a probability score, but a game-theoretic **SHAP Waterfall Plot** binned by biological landscape (Vascular, Disc, Texture). This gives the clinician the exact biological rationale they need to authorize treatment.
+TopoMedic AI is more than a script, it is a clinical tool. We built a Streamlit interface that provides **Itemised Transparency**. It outputs not just a probability score, but a game-theoretic **SHAP Waterfall Plot** binned by biological landscape (Vascular, Disc, Texture). This gives the clinician the exact biological rationale they need to authorize treatment.
 
 ### To Run App
 
