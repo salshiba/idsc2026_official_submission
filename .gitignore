@@ -15,7 +15,3 @@ image_cropped_tda/
 image_failed/
 image_masked/
 image_split/
-
-# uv stuff
-pyproject.toml
-uv.lock

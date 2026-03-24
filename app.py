@@ -46,8 +46,8 @@ cubical, extractors = initialize_tda_extractors()
 @st.cache_resource
 def load_models():
     """Loads the Random Forest and the YOLO model."""
-    rf = joblib.load("models/tda_rf_model.joblib")
-    yolo = YOLO("models/yolo.pt")
+    rf = joblib.load("models/our_tda_rf_model.joblib")
+    yolo = YOLO("models/our_yolo_model.pt")
     return rf, yolo
 
 
@@ -106,7 +106,7 @@ def extract_features_from_landscape(img_array, prefix):
 
 
 # ==========================================
-# 5. STREAMLIT UI
+# 4. STREAMLIT UI
 # ==========================================
 st.title("👁️ TopoMedic AI: Topological Data Driven Diagnostics")
 st.markdown("""
@@ -115,7 +115,6 @@ By measuring the topological complexity of the **Optic Cup**, **Vascular Bayonet
 we provide an objective, mathematically explainable Glaucoma diagnosis.
 """)
 
-# --- INPUT WIDGETS (The "Form") ---
 uploaded_file = st.file_uploader(
     "Upload image of Optic Disc", type=["jpg", "png", "jpeg"]
 )
@@ -134,10 +133,8 @@ if scan_quality < 5:
         "⚠️ **Low Quality Scan:** AI confidence may be degraded. Clinical correlation strongly advised."
     )
 
-# --- THE IGNITION SWITCH (The "Button") ---
 analyze_button = st.button("Analyze Image", type="primary", width="stretch")
 
-# --- THE LOGIC (Runs ONLY when the button is clicked) ---
 if uploaded_file is not None and analyze_button:
     st.markdown("---")
 
@@ -147,6 +144,10 @@ if uploaded_file is not None and analyze_button:
 
     # Yolo cropper
     results = yolo_cropper(img_bgr, verbose=False)
+    if not results or len(results[0].boxes) == 0:
+        st.error("❌ No object detected in the image. Please upload a different image.")
+        st.stop()
+
     box = results[0].boxes[0].xyxy[0].cpu().numpy().astype(int)
     x1, y1, x2, y2 = box
     padding = 20
@@ -156,7 +157,7 @@ if uploaded_file is not None and analyze_button:
     x2 = min(img_bgr.shape[1], x2 + padding)
     roi_img = img_bgr[y1:y2, x1:x2]
 
-    # Apply processing to sharpen image visualised
+    # Apply processing
     annotated_frame = results[0].plot()
     lab = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2LAB)
     l_channel, a_channel, b_channel = cv2.split(lab)
@@ -178,7 +179,7 @@ if uploaded_file is not None and analyze_button:
             cup_img = preprocess_for_tda_cup(roi_img)
             texture_img = preprocess_for_tda_texture(roi_img)
 
-            # 2. Extract Math Features
+            # 2. Extract Features
             patient_features = {}
             patient_features.update(
                 extract_features_from_landscape(vessel_img, "vessel")
@@ -188,9 +189,8 @@ if uploaded_file is not None and analyze_button:
                 extract_features_from_landscape(texture_img, "texture")
             )
 
-            # 3. Add Quality Score from the slider!
-            # CRITICAL: Make sure this column name matches your training data EXACTLY!
-            patient_features["Quality Score"] = scan_quality  # <-- Check this name!
+            # 3. Add Quality Score from the slider
+            patient_features["Quality Score"] = scan_quality
 
             # 4. Prepare DataFrame for Scikit-Learn
             df_patient = pd.DataFrame([patient_features])
@@ -206,8 +206,6 @@ if uploaded_file is not None and analyze_button:
             st.markdown(f"**Glaucoma Risk Score:** {prob_glaucoma * 100:.1f}%")
             st.caption(f"Decision threshold: {DECISION_BOUNDARY * 100:.1f}%")
             st.progress(float(prob_glaucoma))
-            # st.markdown(f"**Probability of Healthy (GON-):** {prob_healthy * 100:.1f}%")
-            # st.progress(float(prob_healthy))
 
             if prob_glaucoma > DECISION_BOUNDARY:
                 st.error("🩺 **VERDICT:** High Risk (GON+)")
@@ -221,11 +219,11 @@ if uploaded_file is not None and analyze_button:
     )
 
     with st.spinner("Calculating Topological Feature Importance..."):
-        # 1. Calculate SHAP values for the Positive Class (Glaucoma)
+        # Calculate SHAP values for the Positive Class (Glaucoma)
         explainer = shap.TreeExplainer(rf_model)
         shap_values_obj = explainer(df_patient)[:, :, 1]
 
-        # 2. Define mapping based on your TDA extractors
+        # Define mapping based on your TDA extractors
         prefix_map = {
             "vessel_": "Vascular Features",
             "cup_": "Optic Cup Features",
@@ -235,7 +233,6 @@ if uploaded_file is not None and analyze_button:
 
         # Group the features
         category_map = {label: [] for label in prefix_map.values()}
-        # category_map["Other (Technical)"] = []
 
         for col in df_patient.columns:
             for prefix, label in prefix_map.items():
@@ -261,7 +258,7 @@ if uploaded_file is not None and analyze_button:
 
         val_1d = np.array(aggregated_values).flatten()
         bv = shap_values_obj.base_values[0]
-        data_1d = np.full(len(val_1d), "")  # Empty strings for clean UI
+        data_1d = np.full(len(val_1d), "")
 
         final_explanation = shap.Explanation(
             values=val_1d, base_values=bv, data=data_1d, feature_names=group_names
@@ -270,7 +267,7 @@ if uploaded_file is not None and analyze_button:
         highest_risk_factor = group_names[max_idx]
         highest_risk_value = val_1d[max_idx]
 
-        # Find the category with the biggest negative impact (pushes toward Healthy)
+        # Find the category with the biggest negative impact
         min_idx = np.argmin(val_1d)
         highest_protective_factor = group_names[min_idx]
         highest_protective_value = val_1d[min_idx]
@@ -294,16 +291,9 @@ if uploaded_file is not None and analyze_button:
                     f"Note: The **{highest_risk_factor}** showed some abnormal topology, but the overall geometry remains within healthy AI parameters."
                 )
 
-        # 4. Render the plot in Streamlit
-        fig, ax = plt.subplots(figsize=(8, 4))  # Control the size
-
-        # CRITICAL: show=False stops SHAP from trying to open a new window
+        fig, ax = plt.subplots(figsize=(8, 4))
         shap.plots.waterfall(final_explanation, show=False)
-
-        # Draw the matplotlib figure inside Streamlit
         st.pyplot(fig)
-
-        # CRITICAL: Clear the figure to prevent memory leaks!
         plt.clf()
         plt.close(fig)
 
