@@ -14,6 +14,7 @@ TopoMedic AI solves this. By anchoring predictions strictly to the mathematical 
 <div align="center">
   <img src="./graphics/shortcut learning.PNG" alt="Alt text" width="600" />
 </div>
+
 ---
 
 ## ⚙️ Topological Architecture
