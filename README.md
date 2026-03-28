@@ -57,3 +57,20 @@ pip install uv
 uv sync
 
 uv run streamlit run app.py
+
+---
+
+## Documentations
+Go through our workflow in the following **Jupyter notebooks**:
+
+1.0 CNN_training_notebook.ipynb
+
+1.5 CNN_cross_val_notebook.ipynb
+
+2.0 YOLO26_cropping_script.ipynb
+
+3.0 TDA_training_notebook.ipynb
+
+3.5 TDA_cross_val_notebook.ipynb
+
+4.0 YOLO26_training_notebook.ipynb
