@@ -39,7 +39,7 @@ Rather than guessing which pixels matter, TopoMedic AI uses the physics of light
 | **Recall (Sensitivity)**| 0.981 ± 0.015 | **0.95 ± 0.026** | **Patient Safety:** Avoids catastrophic False Negatives |
 | **Ablation Resilience**| **FAILED** (Relies on noise) | **PASSED** (Pathology-bound) | Proves model logic is biologically valid |
 | **Logic Mechanism** | Saliency only (Grad-CAM) | **Additive (SHAP)** | Generates "Itemised Clinical Receipts" |
-| **Compute Profile** | Infrastructure Dependent | **O(n) CPU / Edge-Ready** | Cloud-independent privacy; runs on edge device |
+| **Compute Profile** | Infrastructure Dependent | **Edge-Ready** | Cloud-independent privacy; runs on edge device |
 
 ---
 
