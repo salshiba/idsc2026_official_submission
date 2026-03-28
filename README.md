@@ -35,8 +35,8 @@ Rather than guessing which pixels matter, TopoMedic AI uses the physics of light
 
 | Metric / Benchmark | CNN Baseline (ResNet-18) | **TopoMedic AI (TDA+RF)** | Clinical Significance |
 | :--- | :--- | :--- | :--- |
-| **AUROC** | 0.99 | **0.858 ± 0.025** | General Class Separability |
-| **Recall (Sensitivity)**| 0.99 | **0.95** | **Patient Safety:** Avoids catastrophic False Negatives |
+| **AUROC** | 0.993 ± 0.006 | **0.858 ± 0.025** | General Class Separability |
+| **Recall (Sensitivity)**| 0.981 ± 0.015 | **0.95 ± 0.026** | **Patient Safety:** Avoids catastrophic False Negatives |
 | **Ablation Resilience**| **FAILED** (Relies on noise) | **PASSED** (Pathology-bound) | Proves model logic is biologically valid |
 | **Logic Mechanism** | Saliency only (Grad-CAM) | **Additive (SHAP)** | Generates "Itemised Clinical Receipts" |
 | **Compute Profile** | Infrastructure Dependent | **O(n) CPU / Edge-Ready** | Cloud-independent privacy; runs on edge device |
@@ -53,5 +53,7 @@ TopoMedic AI is more than a script, it is a clinical tool. We built a Streamlit 
 
 ### To Run App
 pip install uv
+
 uv sync
+
 uv run streamlit run app.py

@@ -1,0 +1,2 @@
+Feature,AUROC,Sensitivity (R+),Specificity (R-),Accuracy,PR-AUC,F1
+CNN (ResNet18),0.993 ± 0.006,0.981 ± 0.015,0.942 ± 0.066,0.970 ± 0.020,0.983 ± 0.013,0.943 ± 0.039

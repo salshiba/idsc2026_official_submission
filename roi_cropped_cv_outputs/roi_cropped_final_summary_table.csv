@@ -1,0 +1,2 @@
+Feature,AUROC,Sensitivity (R+),Specificity (R-),Accuracy,PR-AUC,F1
+CNN (ROI Cropped),0.932 ± 0.058,0.958 ± 0.031,0.715 ± 0.135,0.892 ± 0.056,0.870 ± 0.103,0.776 ± 0.119
