@@ -49,6 +49,7 @@ TopoMedic AI is more than a script, it is a clinical tool. We built a Streamlit 
 
 <div align="center">
   <img src="./graphics/streamlit.PNG" alt="Alt text" width="600" />
+  <img src="./graphics/shap.PNG" alt="Alt text" width="600" />
 </div>
 
 ### To Run App
